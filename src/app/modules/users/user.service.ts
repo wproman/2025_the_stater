@@ -1,6 +1,7 @@
 import { IUser } from "./user.interface";
 import { User } from "./user.models";
 
+
 const createUserService = async (payload: Partial<IUser>): Promise<IUser> => {
   if (!payload.name || !payload.email) {
     throw new Error("Name and email are required to create a user");
