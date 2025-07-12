@@ -1,13 +1,21 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
+
 // import morgan from 'morgan';
-// import cors from 'cors';
+import cors from "cors";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import notFound from "./app/middleware/notFound";
+import { router } from "./app/routes";
+
 // import helmet from 'helmet';
 // Middlewares
 // app.use(helmet());
-// app.use(cors({ origin: process.env.CLIENT_URL || '*', credentials: true }));
+
 // app.use(morgan('dev'));
 const app: Application = express();
 app.use(express.json());
+app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
+
+app.use("/api/v1", router);
 
 // Sample Route
 app.get("/", (_req: Request, res: Response) => {
@@ -15,10 +23,9 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 // Global Error Handler
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error("❌", err.message);
-  res.status(500).json({ error: err.message });
-});
+app.use(globalErrorHandler);
+// 404 Not Found
+app.use(notFound);
 
 // Export the app for use in server.ts
 export default app;

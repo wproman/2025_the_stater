@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
 import mongoose from "mongoose";
 import app from "./app";
-import { config } from "./config";
+import { config } from "./app/config";
+
 let server: ReturnType<typeof app.listen>;
+
+
 // Connect DB & Start Server
 mongoose
   .connect(config.database_url as string)
