@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { config } from "../config";
+import { envVars } from "../config";
 import AppError from "../errorHelper/AppError";
 
 export const globalErrorHandler = (
@@ -25,6 +25,6 @@ export const globalErrorHandler = (
     success: false,
     message,
     err,
-    stack: config?.node_env === "development" ? err?.stack : null,
+    stack: envVars?.node_env === "development" ? err?.stack : null,
   });
 };

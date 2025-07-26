@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import mongoose from "mongoose";
 import app from "./app";
-import { config } from "./app/config";
+
+import { envVars } from "./app/config";
 import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 // Server instance variable
@@ -13,12 +14,12 @@ let server: ReturnType<typeof app.listen>;
 const bootstrap = async (): Promise<void> => {
   try {
     // MongoDB Connection
-    await mongoose.connect(config.database_url as string);
+    await mongoose.connect(envVars.database_url as string);
     console.log("✅ MongoDB connected successfully");
 
     // Start Express server
-    server = app.listen(config.port, () => {
-      console.log(`🚀 Server running on http://localhost:${config.port}`);
+    server = app.listen(envVars.port, () => {
+      console.log(`🚀 Server running on http://localhost:${envVars.port}`);
 
       // Seed super admin after server starts
       seedSuperAdmin().catch((err) =>
@@ -27,7 +28,7 @@ const bootstrap = async (): Promise<void> => {
     });
 
     // Set mongoose debug mode based on environment
-    mongoose.set("debug", config.node_env === "development");
+    mongoose.set("debug", envVars.node_env === "development");
   } catch (error) {
     console.error("❌ Failed to initialize application:", error);
     process.exit(1);
