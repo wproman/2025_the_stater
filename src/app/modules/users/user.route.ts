@@ -11,4 +11,5 @@ const router = Router();
 router.post(  "/register",  validateRequest(userSchemaZod),UserController.createUser);
 router.get(  "/all-user",  checAuth(UserRole.ADMIN, UserRole.SUPER_ADMIN),  UserController.getAllUsers);
 router.patch(  "/:id", validateRequest(updateUserSchemaZod),  checAuth(...Object.values(UserRole)), UserController.updateUser);
+
 export const UserRoutes = router;

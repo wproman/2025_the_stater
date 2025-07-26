@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 
 
+import { JwtPayload } from "jsonwebtoken";
 import sendResponse from "../../utils/sendResponse";
 import { UserService } from "./user.service";
 
@@ -45,7 +46,7 @@ const updateUser = catchAsync(
     const users = await UserService.updateUserService(
       userId,
       payload,
-      verifiedToken
+      verifiedToken as JwtPayload
     );
 
     sendResponse(res, {
